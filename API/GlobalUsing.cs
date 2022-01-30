@@ -1,0 +1,16 @@
+﻿global using API.Models;
+global using API.Validators;
+global using FluentValidation;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.IdentityModel.Tokens;
+global using System.ComponentModel.DataAnnotations;
+global using System.Text;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using API.Services.Interfaces;
+global using API.Services;
+global using System.Net;
+global using System.Text.Json;
+global using API.Middlewares;
