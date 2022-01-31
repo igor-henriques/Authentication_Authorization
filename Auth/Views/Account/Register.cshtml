@@ -1,0 +1,39 @@
+﻿@model RegisterVM
+
+<p class="fs-3">Criar Nova Conta</p>
+
+<div class="container border" style="padding:20px">
+    <form asp-action="Register" method="post">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="@Model.Email"></label>
+            </div>
+            <div class="col-5">
+                <input type="text" asp-for="@Model.Email" class="form-control"/>
+            </div>
+            <span class="text-danger" asp-validation-for="@Model.Email"></span>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="@Model.Password"></label>
+            </div>
+            <div class="col-5">
+                <input type="password" asp-for="@Model.Password" class="form-control"/>
+            </div>
+            <span class="text-danger" asp-validation-for="@Model.Password"></span>
+        </div>
+
+        <br />
+
+        <input type="submit" value="Enviar" class="btn btn-primary"/>
+
+        <div class="col">
+            <p>Já tem uma conta? <a class="btn btn-link" href="/Account/Login">Clique para fazer log-in</a></p>
+        </div>
+
+    </form>    
+</div>

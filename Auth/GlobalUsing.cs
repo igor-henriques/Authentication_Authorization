@@ -1,0 +1,14 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using System.ComponentModel.DataAnnotations;
+global using Auth.Models;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authorization;
+global using System.Diagnostics;
+global using System.Net;
+global using Auth.Middlewares;
+global using Auth.Services;
+global using Auth.Services.Interfaces;
+global using Newtonsoft.Json;
+global using Auth.Data;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
