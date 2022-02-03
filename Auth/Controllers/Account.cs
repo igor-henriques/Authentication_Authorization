@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Auth.Controllers;
+﻿namespace Auth.Controllers;
 
 public class Account : Controller
 {
@@ -52,7 +50,9 @@ public class Account : Controller
                 .ForEach(error => ModelState.AddModelError(string.Empty, error.Description));
 
             return View();
-        }            
+        }
+
+        var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(identity);
 
         return RedirectToAction(nameof(Login));
     }    
