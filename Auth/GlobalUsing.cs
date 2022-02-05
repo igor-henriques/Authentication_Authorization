@@ -12,3 +12,5 @@ global using Newtonsoft.Json;
 global using Auth.Data;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
+global using System.Net.Mail;
+global using Microsoft.Extensions.Options;

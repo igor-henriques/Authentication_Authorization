@@ -19,7 +19,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
         options.User.RequireUniqueEmail = true;
         options.SignIn.RequireConfirmedEmail = true;
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -28,8 +29,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddHttpClient<IAuthService, AuthService>(
-    client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("Endpoints:API")));
+builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddHttpClient<IAuthService, AuthService>(client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("Endpoints:API")));
 
 builder.Services.AddSession(options =>
 {
@@ -37,6 +38,8 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromHours(8);
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.Configure<SmtpSetting>(builder.Configuration.GetSection("SMTP"));
 
 var app = builder.Build();
 

@@ -5,12 +5,15 @@ public class Account : Controller
     private readonly UserManager<IdentityUser> userManager;
     private readonly SignInManager<IdentityUser> signManager;
     private readonly IAuthService authService;
+    private readonly IEmailService emailService;
 
-    public Account(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signManager, IAuthService authService)
+    public Account(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signManager, 
+        IAuthService authService, IEmailService emailService)
     {
         this.userManager = userManager;
         this.signManager = signManager;
         this.authService = authService;
+        this.emailService = emailService;
     }
 
     public IActionResult Register()
@@ -18,7 +21,7 @@ public class Account : Controller
         return View();
     }
 
-    [HttpGet]
+    [HttpGet("Account/Login")]
     public IActionResult Login()
     {
         return View();
@@ -54,8 +57,25 @@ public class Account : Controller
 
         var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(identity);
 
+        var confirmationLink = Url.PageLink("/Account/ConfirmEmail", values: new { userId = identity.Id, token = confirmationToken });
+
+        await emailService.SendEmailConfirmationAsync("henriquesigor@yahoo.com.br", identity.Email, confirmationLink);
+
         return RedirectToAction(nameof(Login));
     }    
+
+    public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+
+        if (user == null) return NotFound("Usuário não encontrado");
+
+        var emailConfirmation = await userManager.ConfirmEmailAsync(user, token);
+
+        if (!emailConfirmation.Succeeded) return NotFound("Erro ao confirmar e-mail");        
+
+        return View(nameof(ConfirmEmail), "E-mail confirmado com sucesso");
+    }
 
     [HttpPost("Login")]
     public async ValueTask<IActionResult> Login([FromForm] Credential credential, CancellationToken cancellationToken = default)
